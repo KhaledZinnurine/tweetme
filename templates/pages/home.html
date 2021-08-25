@@ -1,15 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="static/bootstrap.min.css">
-</head>
-<body>
-    
-    <h1>This is Heading</h1>
-    <script src="static/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block head_title %}
+   _HomePage
+{% endblock head_title %}
+
+{% block content %}
+    <h1 class="text-danger">Welcome to Tweetme</h1>
+    <div id="tweets">
+        loading...
+    </div>
+    <script>
+        const tweetsElement = document.getElementById('tweets')
+       
+
+        const xhr = new XMLHttpRequest()
+        const method = 'GET'
+        const url = "/tweets"
+        const responseType = "json"
+
+        function handleDidLike(tweet_id,currentCount){
+            console.log(tweet_id,currentCount)
+        }
+        function LikeBtn(tweet){
+            return "<button class='btn btn-primary' onclick = handleDidLike("+tweet.id+","+tweet.likes+")>Like</button>"
+        }
+
+        function formatTweetElement(tweet){
+             var formattedTweert = "<div class='mb-4 tweet' id='tweet-"+ tweet.id +"'> <p>" + tweet.content + 
+              "</p><div class = 'btn-group'>"  + LikeBtn(tweet)+
+            
+            "</div> </div>"
+
+            return formattedTweert
+        }
+
+        xhr.responseType = responseType
+        xhr.open(method,url)
+        xhr.onload = function (){
+            const serverResponse = xhr.response
+            var listedItems = serverResponse.response
+            var finalTweetStr = ""
+            var i;
+            for (i=0;i<listedItems.length;i++){
+                var tweetObj = listedItems[i]
+                var currentItem = formatTweetElement(tweetObj)
+                    finalTweetStr += currentItem
+            }
+            tweetsElement.innerHTML = finalTweetStr
+
+        }
+        xhr.send()
+    </script>
+{% endblock content %}
