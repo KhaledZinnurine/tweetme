@@ -1,13 +1,15 @@
 1.Tweets
-    Creating
-        Text
-        Image
-    Delete
-    Retweeting
+    -> Creating
+        -> Text
+        -> Image
+    -> Delete
+    -> Retweeting
+    -> Liking or Retweeting
 2.Users
-    Register
-    Login
-    Profile
+    ->Register
+    ->Login
+    ->Logout
+    ->Profile
         Image
         Text
         follow Button
